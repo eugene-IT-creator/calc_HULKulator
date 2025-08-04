@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("../images/background-theme.jpg");
+    background-size: auto;
+    background-repeat: no-repeat;
+}
+
+.img img {
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.calc {
+    position: relative;
+    margin-top: 40px;
+    margin-left: 100px;
+    width: 400px;
+    height: 680px;
+    background: url("../images/hulk2.png") bottom 70px right 20px;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 10px #4b9819;
+}
+
+.calc-header {
+    position: relative;
+}
+
+.screen {
+    position: absolute;
+    right: 15px;
+    top: 145px;
+    width: 350px;
+    height: 50px;
+    color: white;
+    text-align: right;
+    font-size: 36px;
+    padding-top: 13px;
+    padding-right: 20px;
+    background: rgb(44, 50, 50);
+    border: 2px solid orange;
+    border-radius: 30px;
+    outline: none;
+}
+
+.table {
+    width: 400px;
+    margin-top: 15px;
+    margin-left: 13px;
+}
+
+.btn {
+    list-style: none;
+    float: left;
+    padding: 15px;
+    margin: 5px;
+    width: 82px;
+    height: 70px;
+    border: 2px solid orange;
+    box-sizing: border-box;
+    background: rgba(44, 50, 50, 0.73);
+    border-radius: 10px;
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    box-shadow: 0 0 5px 0 #ffff00;
+    cursor: pointer;
+}
+
+.clear {
+    margin: 5px;
+    width: 268px;
+    border: 2px solid orange;
+    box-sizing: border-box;
+    background: rgba(44, 50, 50, 0.73);
+    border-radius: 10px;
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    box-shadow: 0 0 5px 0 #ffff00;
+    cursor: pointer;
+}
+
+.null {
+    margin: 5px;
+    width: 174px;
+    height: 70px;
+    border: 2px solid orange;
+    box-sizing: border-box;
+    background: rgba(44, 50, 50, 0.73);
+    border-radius: 10px;
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    box-shadow: 0 0 5px 0 #ffff00;
+    cursor: pointer;
+}
+
+.table li:hover {
+    box-shadow: 0 0 5px 2px #62a506;
+    border: none;
+}
