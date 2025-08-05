@@ -1,99 +1,129 @@
 (() => {
-    let elements = document.getElementsByTagName("li");
+    let numbers = document.querySelectorAll('.numberBtn');
+    let operators = document.querySelectorAll(".operator");
+    let equal = document.getElementById("equal");
+
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName("clear")[0];
-    let operator = null;
-    let operands = [];
-
     let backspaceBtn = document.getElementById("backspace");
-    let decimal = document.getElementById("dot");
 
-    function addToCurrentValue(i) {
-        return function () {
-            let value = elements[i].innerText;
-            if (operands.length === 2) {
-                calculate()();
-            }
-            switch (value) {
-                case "\u00F7":
-                    screen.innerText += "/";
-                    operator = "/"
-                    break;
-                case "\u00D7":
-                    screen.innerText += "*";
-                    operator = "*";
-                    break;
-                case "\u2212":
-                    screen.innerText += "-";
-                    operator = "-";
-                    break;
-                case "+":
-                    screen.innerText += "+";
-                    operator = "+";
-                    break;
-                default:
-                    screen.innerText += value;
-                    operands.push(Number(value));
-            }
-        };
+    let currentOperator = null;
+    let firstNum = null;
+    let secondNum = null;
+    let resetScreen = false;
+    let result = null;
+
+    function add(x, y) {
+        return parseFloat(x) + parseFloat(y);
     }
 
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i].innerText === "=") {
-            elements[i].addEventListener("click", calculate(i));
+    function subtract(x, y) {
+        return parseFloat(x) - parseFloat(y);
+    }
+
+    function divide(x, y) {
+        return parseFloat(x) / parseFloat(y);
+    }
+
+    function multiply(x, y) {
+        return parseFloat(x) * parseFloat(y);
+    }
+
+    function operate(x, y, operator) {
+        if (operator === "add") {
+            return add(x, y);
+        } else if (operator === "subtract") {
+            return subtract(x, y);
+        } else if (operator === "divide") {
+            return divide(x, y).toFixed(5);
+        } else if (operator === "multiply") {
+            return multiply(x, y);
         } else {
-            elements[i].addEventListener("click", addToCurrentValue(i));
+            return null;
         }
     }
 
-    clear.addEventListener('click', function (e) {
-        clearScreen();
-        operands = [];
-        operator = null;
+    numbers.forEach((number) => {
+        number.addEventListener("click", (e) => {
+            if (resetScreen) {
+                clearScreen();
+            }
+            displayNumber(e.target.innerText);
+            resetScreen = false;
+        });
     });
 
-    function clearState() {
-        operands = [];
-        operator = null;
+
+    operators.forEach((operator) => {
+        operator.addEventListener("click", (e) => {
+            setOperand(showNumber());
+            setTheOperator(e.target.id);
+            resetScreen = true;
+        });
+    });
+
+    function showNumber() {
+        return screen.innerText;
     }
 
-    function clearScreen() {
-        screen.innerText = '';
-    }
-
-    function calculate() {
-        return function () {
-            if (operands.length === 1) {
-                answer = operands[0];
-            } else {
-                answer = operate(operator, operands[0], operands[1]);
-            }
-            screen.innerText = answer;
-            if (answer === 'undefined') {
-                clearState();
-                setTimeout(() => {
-                    clearScreen();
-                }, 500);
-            } else {
-                clearState();
-                operands.push(answer);
-            }
-        };
-    }
-
-    function operate(operator, number1, number2) {
-        const operations = {
-            "+": (a, b) => a + b,
-            "-": (a, b) => a - b,
-            "*": (a, b) => a * b,
-            "/": (a, b) => b === 0 ? "undefined" : a / b
+    function setOperand(value) {
+        if (firstNum == null) {
+            firstNum = value;
+        } else {
+            secondNum = value;
         }
-        const operation = operations[operator];
-
-        return operation ? operation(number1, number2) : "Operator not found";
     }
 
+    function setTheOperator(operator) {
+        if (currentOperator == null) {
+            currentOperator = operator;
+        } else if (firstNum && secondNum) {
+            result = operate(Number(firstNum), Number(secondNum), currentOperator);
+            clearScreen();
+            displayNumber(result);
+            firstNum = result;
+            secondNum = null;
+            currentOperator = operator;
+        }
+    }
 
+    // RESULT
+    function calculateResult() {
+        if (firstNum && currentOperator && !resetScreen && !secondNum) {
+            setOperand(showNumber());
+            return operate(Number(firstNum), Number(secondNum), currentOperator);
+        } else {
+            return false;
+        }
+    }
+
+    equal.addEventListener("click", () => {
+        result = calculateResult();
+        clearScreen();
+        if (result) {
+            displayNumber(result);
+        }
+    });
+
+
+    // CLEAR
+    function clearScreen() {
+        screen.innerText = "";
+    }
+
+    function clearAllValues() {
+        firstNum = null;
+        secondNum = null;
+        currentOperator = null;
+        clearScreen();
+    }
+
+    clear.addEventListener("click", () => {
+        clearAllValues();
+    });
+
+
+    // BACKSPACE
     backspaceBtn.addEventListener("click", deleteNumber)
     function deleteNumber() {
         if (screen.innerText !== "0") {
@@ -113,9 +143,26 @@
             screen.innerText += ".";
         }
     }
+
+    // NEED TO FIX
+    function displayOperator() {
+        if (!screen.innerText.includes("+")) {
+            screen.innerText += "+";
+        } else if (!screen.innerText.includes("-")) {
+            screen.innerText += "-";
+        } else if (!screen.innerText.includes("*")) {
+            screen.innerText += "*";
+        } else if (!screen.innerText.includes("/")) {
+            screen.innerText += "/";
+        }
+    }
     window.addEventListener("keydown", setKey);
     function setKey(e) {
         if (e.key >= 0 && e.key <= 9) displayNumber(e.key);
+        if (e.key === "+") displayOperator(e.key);
+        if (e.key === "-") displayOperator(e.key);
+        if (e.key === "*") displayOperator(e.key);
+        if (e.key === "/") displayOperator(e.key);
         if (e.key === ".") displayDecimal(e.key);
         if (e.key === "Backspace") deleteNumber(e.key);
     }
