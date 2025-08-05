@@ -1,42 +1,49 @@
 (() => {
     let elements = document.getElementsByTagName("li");
-    let screen = document.querySelectorAll("p")[0];
+    let screen = document.getElementById("input");
     let clear = document.getElementsByClassName("clear")[0];
     let operator = null;
+    let answer = null;
     let operands = [];
 
     let backspaceBtn = document.getElementById("backspace");
     let decimal = document.getElementById("dot");
 
+    const operators = {
+        "\u00F7": "/",
+        "\u00D7": "*",
+        "\u2212": "-",
+        "+": "+",
+    }
+
     function addToCurrentValue(i) {
         return function () {
-            let value = elements[i].innerText;
-            if (operands.length === 2) {
+            let userInput = elements[i].innerText;
+            if (operands.length === 2 && !screen.innerText.includes(".")) {
                 calculate()();
             }
-            switch (value) {
-                case "\u00F7":
-                    screen.innerText += "/";
-                    operator = "/"
-                    break;
-                case "\u00D7":
-                    screen.innerText += "*";
-                    operator = "*";
-                    break;
-                case "\u2212":
-                    screen.innerText += "-";
-                    operator = "-";
-                    break;
-                case "+":
-                    screen.innerText += "+";
-                    operator = "+";
-                    break;
-                default:
-                    screen.innerText += value;
-                    operands.push(Number(value));
+            if (isNaN(Number(userInput)) && userInput in operators) {
+                if (operator === null && screen.innerText.length > 0) {
+                    operator = operators[userInput];
+                    screen.innerText += operator;
+                }
+                return;
             }
-        };
-    }
+            if (!isNaN(Number(userInput)) || userInput === '.') {
+                screen.innerText += userInput;
+            }
+            if ((operator !== null) && (screen.innerText.includes(operator)) && (!screen.innerText.endsWith('.'))) {
+                let sides = screen.innerText.split(operator);
+                if (sides.length === 2 && sides[0] !== "" && sides[1] !== "") {
+                    let left = Number(sides[0]);
+                    let right = Number(sides[1]);
+                    operands = [left, right];
+                    console.log(operands);
+                    console.log(operands.length);
+                }
+            }
+        }
+    };
 
     for (let i = 0; i < elements.length; i++) {
         if (elements[i].innerText === "=") {
@@ -63,11 +70,8 @@
 
     function calculate() {
         return function () {
-            if (operands.length === 1) {
-                answer = operands[0];
-            } else {
-                answer = operate(operator, operands[0], operands[1]);
-            }
+            answer = operate(operator, operands[0], operands[1]);
+
             screen.innerText = answer;
             if (answer === 'undefined') {
                 clearState();
