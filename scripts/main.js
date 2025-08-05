@@ -33,5 +33,17 @@
         };
     }
 
+    function operate(operator, number1, number2) {
+        const operations = {
+            "+": (a, b) => a + b,
+            "-": (a, b) => a - b,
+            "*": (a, b) => a * b,
+            "/": (a, b) => b === 0 ? "Seriously, Division by zero is undefined" : a / b
+        }
+        const operation = operations[operator];
+
+        return operation ? operation(number1, number2) : "Operator not found";
+    }
+
 })();
 
