@@ -3,6 +3,25 @@
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName('clear')[0];
 
+    function addToCurrentValue(i) {
+        return function () {
+            let value = elements[i].innerText;
+            switch (value) {
+                case "\u00F7":
+                    screen.innerText += "/";
+                    break;
+                case "\u00D7":
+                    screen.innerText += "*";
+                    break;
+                case "\u2212":
+                    screen.innerText += "-";
+                    break;
+                default:
+                    screen.innerText += value;
+            }
+        };
+    }
+
     for (let i = 0; i < elements.length; i++) {
         if (elements[i].innerHTML === "=") {
             elements[i].addEventListener("click", calculate(i));
@@ -11,39 +30,28 @@
         }
     }
 
-    function addToCurrentValue(i) {
-        return function () {
-            if (elements[i].innerHTML === " ÷ ") {
-                screen.innerHTML += " / ";
-            } else if (elements[i].innerHTML === " x ") {
-                screen.innerHTML += " * ";
-            } else {
-                screen.innerHTML += elements[i].innerHTML;
-            }
-        };
-    }
-
     clear.onclick = function () {
         screen.innerHTML = "";
     };
 
     function calculate() {
         return function () {
-            screen.innerHTML = eval(screen.innerHTML);
+            screen.innerText = eval(screen.innerText);
         };
     }
 
-    function operate(operator, number1, number2) {
-        const operations = {
-            "+": (a, b) => a + b,
-            "-": (a, b) => a - b,
-            "*": (a, b) => a * b,
-            "/": (a, b) => b === 0 ? "Seriously, Division by zero is undefined" : a / b
-        }
-        const operation = operations[operator];
+    //we need to eventually switch to this, eval is dangerous
+    // function operate(operator, number1, number2) {
+    //     const operations = {
+    //         "+": (a, b) => a + b,
+    //         "-": (a, b) => a - b,
+    //         "*": (a, b) => a * b,
+    //         "/": (a, b) => b === 0 ? "Seriously, Division by zero is undefined" : a / b
+    //     }
+    //     const operation = operations[operator];
 
-        return operation ? operation(number1, number2) : "Operator not found";
-    }
+    //     return operation ? operation(number1, number2) : "Operator not found";
+    // }
 
 })();
 
