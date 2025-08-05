@@ -8,6 +8,9 @@
     function addToCurrentValue(i) {
         return function () {
             let value = elements[i].innerText;
+            if (operands.length === 2) {
+                calculate()();
+            }
             switch (value) {
                 case "\u00F7":
                     screen.innerText += "/";
@@ -28,9 +31,6 @@
                 default:
                     screen.innerText += value;
                     operands.push(Number(value));
-            }
-            if (operands.length === 2) {
-                calculate()();
             }
         };
     }
