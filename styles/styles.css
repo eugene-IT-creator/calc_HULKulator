@@ -50,7 +50,7 @@ body {
     outline: none;
 }
 
-.table {
+.calculator-keyboard {
     width: 400px;
     margin-top: 15px;
     margin-left: 13px;
@@ -103,7 +103,7 @@ body {
     cursor: pointer;
 }
 
-.table li:hover {
+.calculator-keyboard li:hover {
     box-shadow: 0 0 5px 2px #62a506;
     border: none;
 }

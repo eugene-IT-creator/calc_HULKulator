@@ -2,36 +2,93 @@
     let elements = document.getElementsByTagName("li");
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName('clear')[0];
+    let operator = null;
+    let operands = [];
+
+    function addToCurrentValue(i) {
+        return function () {
+            let value = elements[i].innerText;
+            switch (value) {
+                case "\u00F7":
+                    screen.innerText += "/";
+                    operator = "/"
+                    break;
+                case "\u00D7":
+                    screen.innerText += "*";
+                    operator = "*";
+                    break;
+                case "\u2212":
+                    screen.innerText += "-";
+                    operator = "-";
+                    break;
+                case "+":
+                    screen.innerText += "+";
+                    operator = "+";
+                    break;
+                default:
+                    screen.innerText += value;
+                    operands.push(Number(value));
+            }
+            if (operands.length === 2) {
+                calculate()();
+            }
+        };
+    }
 
     for (let i = 0; i < elements.length; i++) {
-        if (elements[i].innerHTML === "=") {
+        if (elements[i].innerText === "=") {
             elements[i].addEventListener("click", calculate(i));
         } else {
             elements[i].addEventListener("click", addToCurrentValue(i));
         }
     }
 
-    function addToCurrentValue(i) {
+    clear.addEventListener('click', function (e) {
+        clearScreen();
+        operands = [];
+        operator = null;
+    });
+
+    function clearState() {
+        operands = [];
+        operator = null;
+    }
+
+    function clearScreen() {
+        screen.innerText = '';
+    }
+
+    function calculate() {
         return function () {
-            if (elements[i].innerHTML === " ÷ ") {
-                screen.innerHTML += " / ";
-            } else if (elements[i].innerHTML === " x ") {
-                screen.innerHTML += " * ";
+            if (operands.length === 1) {
+                answer = operands[0];
             } else {
-                screen.innerHTML += elements[i].innerHTML;
+                answer = operate(operator, operands[0], operands[1]);
+            }
+            screen.innerText = answer;
+            if (answer === 'undefined') {
+                clearState();
+                setTimeout(() => {
+                    clearScreen();
+                }, 500);
+            } else {
+                clearState();
+                operands.push(answer);
             }
         };
     }
 
-    clear.onclick = function () {
-        screen.innerHTML = "";
-    };
+    function operate(operator, number1, number2) {
+        const operations = {
+            "+": (a, b) => a + b,
+            "-": (a, b) => a - b,
+            "*": (a, b) => a * b,
+            "/": (a, b) => b === 0 ? "undefined" : a / b
+        }
+        const operation = operations[operator];
 
-    function calculate() {
-        return function () {
-            screen.innerHTML = eval(screen.innerHTML);
-        };
+        return operation ? operation(number1, number2) : "Operator not found";
     }
-
 })();
+
 
