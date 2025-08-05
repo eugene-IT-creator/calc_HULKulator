@@ -1,9 +1,12 @@
 (() => {
     let elements = document.getElementsByTagName("li");
     let screen = document.querySelectorAll("p")[0];
-    let clear = document.getElementsByClassName('clear')[0];
+    let clear = document.getElementsByClassName("clear")[0];
     let operator = null;
     let operands = [];
+
+    let backspaceBtn = document.getElementById("backspace");
+    let decimal = document.getElementById("dot");
 
     function addToCurrentValue(i) {
         return function () {
@@ -89,6 +92,34 @@
 
         return operation ? operation(number1, number2) : "Operator not found";
     }
+
+
+    backspaceBtn.addEventListener("click", deleteNumber)
+    function deleteNumber() {
+        if (screen.innerText !== "0") {
+            screen.innerText = screen.innerText.toString().slice(0, -1);
+        }
+        if (screen.innerText === "") {
+            screen.innerText = "";
+        }
+    }
+
+
+    function displayNumber(number) {
+        screen.innerText += number;
+    }
+    function displayDecimal() {
+        if (!screen.innerText.includes(".")) {
+            screen.innerText += ".";
+        }
+    }
+    window.addEventListener("keydown", setKey);
+    function setKey(e) {
+        if (e.key >= 0 && e.key <= 9) displayNumber(e.key);
+        if (e.key === ".") displayDecimal(e.key);
+        if (e.key === "Backspace") deleteNumber(e.key);
+    }
+
 })();
 
 

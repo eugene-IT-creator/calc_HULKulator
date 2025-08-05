@@ -76,7 +76,7 @@ body {
 
 .clear {
     margin: 5px;
-    width: 268px;
+    width: 174px;
     border: 2px solid orange;
     box-sizing: border-box;
     background: rgba(44, 50, 50, 0.73);
@@ -86,6 +86,14 @@ body {
     text-align: center;
     box-shadow: 0 0 5px 0 #ffff00;
     cursor: pointer;
+}
+
+.backspace svg {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    fill: white;
+    right: 135px;
 }
 
 .null {
