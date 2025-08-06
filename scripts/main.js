@@ -30,17 +30,13 @@
     }
 
     function operate(x, y, operator) {
-        if (operator === "add") {
-            return add(x, y);
-        } else if (operator === "subtract") {
-            return subtract(x, y);
-        } else if (operator === "divide") {
-            return divide(x, y).toFixed(5);
-        } else if (operator === "multiply") {
-            return multiply(x, y);
-        } else {
-            return null;
+        const operations = {
+            "add ": add(x, y),
+            "subtract": subtract(x, y),
+            "multiply": multiply(x, y),
+            "divide": divide(x, y),
         }
+        return operations[operator];
     }
 
     numbers.forEach((number) => {
