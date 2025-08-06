@@ -27,7 +27,7 @@
         else if (x == 0)
             return Number(0);
         else
-        return parseFloat(x) / parseFloat(y);
+            return parseFloat(x) / parseFloat(y);
     }
 
     function multiply(x, y) {
@@ -35,6 +35,9 @@
     }
 
     function operate(x, y, operator) {
+        console.log(x);
+        console.log(operator);
+        console.log(y);
         const operations = {
             "+": add(x, y),
             "-": subtract(x, y),
@@ -150,15 +153,6 @@
     function displayOperator(operator) {
         if (!screen.innerText.includes(operator))
             screen.innerText += operator;
-        // if (!screen.innerText.includes("+")) {
-        //     screen.innerText += "+";
-        // } else if (!screen.innerText.includes("-")) {
-        //     screen.innerText += "-";
-        // } else if (!screen.innerText.includes("*")) {
-        //     screen.innerText += "*";
-        // } else if (!screen.innerText.includes("/")) {
-        //     screen.innerText += "/";
-        // }
     }
     window.addEventListener("keydown", setKey);
     function setKey(e) {
