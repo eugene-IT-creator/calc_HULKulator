@@ -36,10 +36,10 @@
 
     function operate(x, y, operator) {
         const operations = {
-            "add": add(x, y),
-            "subtract": subtract(x, y),
-            "multiply": multiply(x, y),
-            "divide": divide(x, y),
+            "+": add(x, y),
+            "-": subtract(x, y),
+            "*": multiply(x, y),
+            "/": divide(x, y),
         }
         return operations[operator];
     }
