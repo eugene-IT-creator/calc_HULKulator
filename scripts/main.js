@@ -37,9 +37,6 @@
     }
 
     function operate(x, y, operator) {
-        console.log(x);
-        console.log(operator);
-        console.log(y);
         const operations = {
             "+": add(x, y),
             "-": subtract(x, y),
@@ -116,7 +113,6 @@
         clearAllValues();
         if (result) {
             displayNumber(result);
-            console.log("After equal " + secondNum);
         }
     }
 
@@ -180,7 +176,6 @@
     window.addEventListener("keydown", setKey);
 
     function setKey(e) {
-        console.log(e.key);
         if (e.key >= 0 && e.key <= 9) {
             if (resetScreen)
                 clearScreen();
