@@ -2,6 +2,7 @@
     let elements = document.getElementsByTagName("li");
     let screen = document.getElementById("input");
     let clear = document.getElementsByClassName("clear")[0];
+    let displayImage = document.querySelector(".img img");
     let operator = null;
     let answer = null;
     let operands = [];
@@ -23,7 +24,35 @@
         "+": "+",
         "\u003D": "="
     }
+    //Helper functions
+    function substrCount(str, substr) {
+        return str.split(substr).length - 1;
+    }
 
+    function checkInput(input) {
+       
+        if (isNaN(Number(input)) && input in operators) {
+            if (operator === null && screen.innerText.length > 0) {
+                operator = operators[input];
+                screen.innerText += operator;
+            }
+            return;
+        }
+        if (!isNaN(Number(input))) {
+            screen.innerText += input;
+        }
+        if (!screen.innerText.includes(operator)) {
+            if ((input === '.' && substrCount(screen.innerText, ".") < 1)) {
+                screen.innerText += input;
+            }
+        } else {
+            if ((input === '.' && substrCount(screen.innerText, ".") < 2)) {
+                screen.innerText += input;
+            }
+        }
+    }
+
+    //Main logic
     function addToCurrentValue(i) {
         return function () {
             let userInput = elements[i].innerText;
@@ -34,16 +63,7 @@
             if (screen.innerText.includes(operator) && userInput in actionButtons) {
                 calculate()();
             }
-            if (isNaN(Number(userInput)) && userInput in operators) {
-                if (operator === null && screen.innerText.length > 0) {
-                    operator = operators[userInput];
-                    screen.innerText += operator;
-                }
-                return;
-            }
-            if (!isNaN(Number(userInput)) || userInput === '.') {
-                screen.innerText += userInput;
-            }
+            checkInput(userInput);
             if (operator !== null && screen.innerText.includes(operator) && !screen.innerText.endsWith('.')) {
                 let sides = screen.innerText.split(operator);
                 if (sides.length === 2 && sides[0] !== "" && sides[1] !== "") {
@@ -89,6 +109,10 @@
             screen.innerText = answer;
             if (answer === 'undefined') {
                 clearState();
+                displayImage.src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHMzbnpkYTl0OTF4MWo1MzR6eHB3NTk5cGVhcTJxcGVyMTRucm9sbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/u31fedwl4J7G0/giphy.gif"
+                setTimeout(() => {
+                    displayImage.src = "images/hulk.jpeg"
+                }, 5000)
                 //alert("Nice try buddy, division by zero is not possible");
             } else {
                 clearState();
