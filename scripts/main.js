@@ -145,16 +145,18 @@
     }
 
     // NEED TO FIX
-    function displayOperator() {
-        if (!screen.innerText.includes("+")) {
-            screen.innerText += "+";
-        } else if (!screen.innerText.includes("-")) {
-            screen.innerText += "-";
-        } else if (!screen.innerText.includes("*")) {
-            screen.innerText += "*";
-        } else if (!screen.innerText.includes("/")) {
-            screen.innerText += "/";
-        }
+    function displayOperator(operator) {
+        if (!screen.innerText.includes(operator))
+            screen.innerText += operator;
+        // if (!screen.innerText.includes("+")) {
+        //     screen.innerText += "+";
+        // } else if (!screen.innerText.includes("-")) {
+        //     screen.innerText += "-";
+        // } else if (!screen.innerText.includes("*")) {
+        //     screen.innerText += "*";
+        // } else if (!screen.innerText.includes("/")) {
+        //     screen.innerText += "/";
+        // }
     }
     window.addEventListener("keydown", setKey);
     function setKey(e) {
