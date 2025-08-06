@@ -155,14 +155,32 @@
             screen.innerText += operator;
     }
     window.addEventListener("keydown", setKey);
+
     function setKey(e) {
         if (e.key >= 0 && e.key <= 9) displayNumber(e.key);
-        if (e.key === "+") displayOperator(e.key);
-        if (e.key === "-") displayOperator(e.key);
-        if (e.key === "*") displayOperator(e.key);
-        if (e.key === "/") displayOperator(e.key);
-        if (e.key === ".") displayDecimal(e.key);
-        if (e.key === "Backspace") deleteNumber(e.key);
+
+        switch (e.key) {
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+                displayOperator(e.key);
+                break;
+            case ".":
+            case ",":
+                displayDecimal(e.key);
+                break;
+            case "Backspace":
+                deleteNumber(e.key);
+            case "=":
+            case "Enter":
+                result = calculateResult();
+                clearScreen();
+                if (result) {
+                    displayNumber(result);
+                }
+                break;
+        }
     }
 
 })();
