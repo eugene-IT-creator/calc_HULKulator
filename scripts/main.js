@@ -61,8 +61,10 @@
     operators.forEach((operator) => {
         operator.addEventListener("click", (e) => {
             setOperand(showNumber());
-            displayOperator(operator.innerText);
+
             setTheOperator(e.target.id);
+            displayOperator(operator.innerText);
+            console.log("In operator event", firstNum, " ", secondNum)
             resetScreen = true;
         });
     });
@@ -72,8 +74,11 @@
     }
 
     function setOperand(value) {
-        if (firstNum == null) {
+        console.log("Comes:", value);
+        console.log("In setOperand event", firstNum, " ", secondNum)
+        if (firstNum === null) {
             firstNum = value;
+            console.log("In setOperand event", firstNum, " ", secondNum)
         } else {
             secondNum = value;
         }
@@ -84,16 +89,21 @@
             currentOperator = operator;
         } else if (firstNum && secondNum) {
             result = operate(Number(firstNum), Number(secondNum), currentOperator);
-            clearScreen();
+            clearAllValues();
             displayNumber(result);
             firstNum = result;
-            secondNum = null;
+            displayOperator(operator);
             currentOperator = operator;
         }
     }
 
+    function displayOperator(operator) {
+        screen.innerText += operator;
+    }
+
     // RESULT
     function calculateResult() {
+        console.log("In calculate " + secondNum);
         if (firstNum && currentOperator && !resetScreen && !secondNum) {
             setOperand(showNumber());
             return operate(Number(firstNum), Number(secondNum), currentOperator);
@@ -104,9 +114,10 @@
 
     equal.addEventListener("click", () => {
         result = calculateResult();
-        clearScreen();
+        clearAllValues();
         if (result) {
             displayNumber(result);
+            console.log("After equal " + secondNum);
         }
     });
 
@@ -143,6 +154,7 @@
     function displayNumber(number) {
         screen.innerText += number;
     }
+
     function displayDecimal() {
         if (!screen.innerText.includes(".")) {
             screen.innerText += ".";
@@ -150,21 +162,23 @@
     }
 
     // NEED TO FIX
-    function displayOperator(operator) {
-        if (!screen.innerText.includes(operator))
-            screen.innerText += operator;
-    }
     window.addEventListener("keydown", setKey);
 
     function setKey(e) {
-        if (e.key >= 0 && e.key <= 9) displayNumber(e.key);
-
+        if (e.key >= 0 && e.key <= 9) {
+            if (resetScreen)
+                clearScreen();
+            displayNumber(e.key);
+        }
         switch (e.key) {
             case "+":
             case "-":
             case "*":
             case "/":
+                setOperand(showNumber());
+                setTheOperator(e.key);
                 displayOperator(e.key);
+                resetScreen = true;
                 break;
             case ".":
             case ",":
