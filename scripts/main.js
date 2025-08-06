@@ -22,6 +22,11 @@
     }
 
     function divide(x, y) {
+        if (y == 0)
+            return "r u serious?";
+        else if (x == 0)
+            return Number(0);
+        else
         return parseFloat(x) / parseFloat(y);
     }
 
