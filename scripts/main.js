@@ -13,6 +13,8 @@
     let resetScreen = false;
     let result = null;
 
+
+    // OPERATION 
     function add(x, y) {
         return parseFloat(x) + parseFloat(y);
     }
@@ -47,38 +49,44 @@
         return operations[operator];
     }
 
-    numbers.forEach((number) => {
-        number.addEventListener("click", (e) => {
-            if (resetScreen) {
-                clearScreen();
-            }
-            displayNumber(e.target.innerText);
+
+    // READING INPUTS 
+
+    // NUMBER INPUT
+    function readNumber(numberText) {
+        if (resetScreen) {
+            clearScreen();
             resetScreen = false;
-        });
-    });
+        }
+        displayNumber(numberText);
+    }
 
+    function displayNumber(number) {
+        screen.innerText += number;
+    }
 
-    operators.forEach((operator) => {
-        operator.addEventListener("click", (e) => {
-            setOperand(showNumber());
+    // DECIMAL INPUT
+    function displayDecimal() {
+        if (!screen.innerText.includes(".")) {
+            screen.innerText += ".";
+        }
+    }
 
-            setTheOperator(e.target.id);
-            displayOperator(operator.innerText);
-            console.log("In operator event", firstNum, " ", secondNum)
-            resetScreen = true;
-        });
-    });
+    // OPERATOR INPUT
+    function readOperator(operatorId, operatorText) {
+        setOperand(showNumber());
+        setTheOperator(operatorId);
+        displayOperator(operatorText);
+        resetScreen = true;
+    }
 
     function showNumber() {
         return screen.innerText;
     }
 
     function setOperand(value) {
-        console.log("Comes:", value);
-        console.log("In setOperand event", firstNum, " ", secondNum)
         if (firstNum === null) {
             firstNum = value;
-            console.log("In setOperand event", firstNum, " ", secondNum)
         } else {
             secondNum = value;
         }
@@ -101,9 +109,19 @@
         screen.innerText += operator;
     }
 
+    // EQUALS HANDLING
+
+    function readEquals() {
+        result = calculateResult();
+        clearAllValues();
+        if (result) {
+            displayNumber(result);
+            console.log("After equal " + secondNum);
+        }
+    }
+
     // RESULT
     function calculateResult() {
-        console.log("In calculate " + secondNum);
         if (firstNum && currentOperator && !resetScreen && !secondNum) {
             setOperand(showNumber());
             return operate(Number(firstNum), Number(secondNum), currentOperator);
@@ -112,15 +130,24 @@
         }
     }
 
-    equal.addEventListener("click", () => {
-        result = calculateResult();
-        clearAllValues();
-        if (result) {
-            displayNumber(result);
-            console.log("After equal " + secondNum);
-        }
+    // UI HANDLING
+
+    numbers.forEach((number) => {
+        number.addEventListener("click", (e) => {
+            readNumber(e.target.innerText);
+        });
     });
 
+
+    operators.forEach((operator) => {
+        operator.addEventListener("click", (e) => {
+            readOperator(e.target.id, operator.innerText);
+        });
+    });
+
+    equal.addEventListener("click", () => {
+        readEquals
+    });
 
     // CLEAR
     function clearScreen() {
@@ -138,7 +165,6 @@
         clearAllValues();
     });
 
-
     // BACKSPACE
     backspaceBtn.addEventListener("click", deleteNumber)
     function deleteNumber() {
@@ -150,35 +176,23 @@
         }
     }
 
-
-    function displayNumber(number) {
-        screen.innerText += number;
-    }
-
-    function displayDecimal() {
-        if (!screen.innerText.includes(".")) {
-            screen.innerText += ".";
-        }
-    }
-
-    // NEED TO FIX
+    // KEYBOARD INPUT HANDLING
     window.addEventListener("keydown", setKey);
 
     function setKey(e) {
+        console.log(e.key);
         if (e.key >= 0 && e.key <= 9) {
             if (resetScreen)
                 clearScreen();
             displayNumber(e.key);
+            resetScreen = false;
         }
         switch (e.key) {
             case "+":
             case "-":
             case "*":
             case "/":
-                setOperand(showNumber());
-                setTheOperator(e.key);
-                displayOperator(e.key);
-                resetScreen = true;
+                readOperator(e.key, e.key);
                 break;
             case ".":
             case ",":
@@ -188,15 +202,11 @@
                 deleteNumber(e.key);
             case "=":
             case "Enter":
-                result = calculateResult();
-                clearScreen();
-                if (result) {
-                    displayNumber(result);
-                }
+                readEquals();
                 break;
+            case "Escape":
+                clearAllValues();
         }
     }
 
 })();
-
-
