@@ -36,7 +36,7 @@
 
     function operate(x, y, operator) {
         const operations = {
-            "add ": add(x, y),
+            "add": add(x, y),
             "subtract": subtract(x, y),
             "multiply": multiply(x, y),
             "divide": divide(x, y),
@@ -58,7 +58,8 @@
     operators.forEach((operator) => {
         operator.addEventListener("click", (e) => {
             setOperand(showNumber());
-            setTheOperator(operator.innerText);
+            displayOperator(operator.innerText);
+            setTheOperator(e.target.id);
             resetScreen = true;
         });
     });
