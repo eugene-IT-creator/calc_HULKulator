@@ -58,7 +58,7 @@
     operators.forEach((operator) => {
         operator.addEventListener("click", (e) => {
             setOperand(showNumber());
-            setTheOperator(e.target.id);
+            setTheOperator(operator.innerText);
             resetScreen = true;
         });
     });
