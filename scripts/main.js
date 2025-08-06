@@ -16,10 +16,22 @@
         "+": "+",
     }
 
+    const actionButtons = {
+        "\u00F7": "/",
+        "\u00D7": "*",
+        "\u2212": "-",
+        "+": "+",
+        "\u003D": "="
+    }
+
     function addToCurrentValue(i) {
         return function () {
             let userInput = elements[i].innerText;
-            if (operands.length === 2 && !screen.innerText.includes(".")) {
+            if (screen.innerText === 'Operator not found' || screen.innerText === 'undefined') {
+                clearState();
+                clearScreen();
+            }
+            if (screen.innerText.includes(operator) && userInput in actionButtons) {
                 calculate()();
             }
             if (isNaN(Number(userInput)) && userInput in operators) {
@@ -32,14 +44,12 @@
             if (!isNaN(Number(userInput)) || userInput === '.') {
                 screen.innerText += userInput;
             }
-            if ((operator !== null) && (screen.innerText.includes(operator)) && (!screen.innerText.endsWith('.'))) {
+            if (operator !== null && screen.innerText.includes(operator) && !screen.innerText.endsWith('.')) {
                 let sides = screen.innerText.split(operator);
                 if (sides.length === 2 && sides[0] !== "" && sides[1] !== "") {
                     let left = Number(sides[0]);
                     let right = Number(sides[1]);
                     operands = [left, right];
-                    console.log(operands);
-                    console.log(operands.length);
                 }
             }
         }
@@ -70,14 +80,16 @@
 
     function calculate() {
         return function () {
-            answer = operate(operator, operands[0], operands[1]);
-
+            console.log(operands);
+            if (!screen.innerText.includes(operator)) {
+                answer = screen.innerText;
+            } else {
+                answer = operate(operator, operands[0], operands[1]);
+            }
             screen.innerText = answer;
             if (answer === 'undefined') {
                 clearState();
-                setTimeout(() => {
-                    clearScreen();
-                }, 500);
+                //alert("Nice try buddy, division by zero is not possible");
             } else {
                 clearState();
                 operands.push(answer);
