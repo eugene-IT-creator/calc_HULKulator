@@ -28,6 +28,18 @@
     function substrCount(str, substr) {
         return str.split(substr).length - 1;
     }
+    
+    function operate(operator, number1, number2) {
+        const operations = {
+            "+": (a, b) => a + b,
+            "-": (a, b) => a - b,
+            "*": (a, b) => a * b,
+            "/": (a, b) => b === 0 ? "undefined" : a / b
+        }
+        const operation = operations[operator];
+
+        return operation ? operation(number1, number2) : "Operator not found";
+    }
 
     function checkInput(input) {
        
@@ -120,19 +132,6 @@
             }
         };
     }
-
-    function operate(operator, number1, number2) {
-        const operations = {
-            "+": (a, b) => a + b,
-            "-": (a, b) => a - b,
-            "*": (a, b) => a * b,
-            "/": (a, b) => b === 0 ? "undefined" : a / b
-        }
-        const operation = operations[operator];
-
-        return operation ? operation(number1, number2) : "Operator not found";
-    }
-
 
     backspaceBtn.addEventListener("click", deleteNumber)
     function deleteNumber() {
