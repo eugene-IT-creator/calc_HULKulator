@@ -142,7 +142,7 @@
     });
 
     equal.addEventListener("click", () => {
-        readEquals
+        readEquals();
     });
 
     // CLEAR
