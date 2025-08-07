@@ -194,13 +194,15 @@
                 displayDecimal(e.key);
                 break;
             case "Backspace":
-                deleteNumber(e.key);
+                deleteNumber();
+                break;
             case "=":
             case "Enter":
                 readEquals();
                 break;
             case "Escape":
                 clearAllValues();
+                break;
         }
     }
 
