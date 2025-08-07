@@ -2,6 +2,7 @@
     let numbers = document.querySelectorAll('.numberBtn');
     let operators = document.querySelectorAll(".operator");
     let equal = document.getElementById("equal");
+    let dot = document.getElementById("dot");
 
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName("clear")[0];
@@ -133,6 +134,7 @@
         });
     });
 
+    dot.addEventListener("click", displayDecimal);
 
     operators.forEach((operator) => {
         operator.addEventListener("click", (e) => {
