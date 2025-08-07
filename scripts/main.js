@@ -97,7 +97,6 @@
             clearAllValues();
             displayNumber(result);
             firstNum = result;
-            displayOperator(operator);
             currentOperator = operator;
         }
     }
