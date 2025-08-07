@@ -2,6 +2,7 @@
     let numbers = document.querySelectorAll('.numberBtn');
     let operators = document.querySelectorAll(".operator");
     let equal = document.getElementById("equal");
+    let dot = document.getElementById("dot");
 
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName("clear")[0];
@@ -97,7 +98,6 @@
             clearAllValues();
             displayNumber(result);
             firstNum = result;
-            displayOperator(operator);
             currentOperator = operator;
         }
     }
@@ -134,6 +134,7 @@
         });
     });
 
+    dot.addEventListener("click", displayDecimal);
 
     operators.forEach((operator) => {
         operator.addEventListener("click", (e) => {
@@ -142,7 +143,7 @@
     });
 
     equal.addEventListener("click", () => {
-        readEquals
+        readEquals();
     });
 
     // CLEAR
@@ -194,13 +195,15 @@
                 displayDecimal(e.key);
                 break;
             case "Backspace":
-                deleteNumber(e.key);
+                deleteNumber();
+                break;
             case "=":
             case "Enter":
                 readEquals();
                 break;
             case "Escape":
                 clearAllValues();
+                break;
         }
     }
 
