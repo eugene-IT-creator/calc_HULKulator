@@ -1,9 +1,10 @@
 (() => {
+    const memeLink = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHMzbnpkYTl0OTF4MWo1MzR6eHB3NTk5cGVhcTJxcGVyMTRucm9sbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/u31fedwl4J7G0/giphy.gif"
     let numbers = document.querySelectorAll('.numberBtn');
     let operators = document.querySelectorAll(".operator");
     let equal = document.getElementById("equal");
     let dot = document.getElementById("dot");
-
+    let screenBackground = document.querySelector(".img img");
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName("clear")[0];
     let backspaceBtn = document.getElementById("backspace");
@@ -110,6 +111,12 @@
 
     function readEquals() {
         result = calculateResult();
+        if (result === "r u serious?") {
+            screenBackground.src = memeLink;
+        }
+        setTimeout(() => {
+            screenBackground.src = "images/hulk.jpeg"
+        }, 5000)
         clearAllValues();
         if (result) {
             displayNumber(result);
