@@ -8,7 +8,7 @@
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName("clear")[0];
     let backspaceBtn = document.getElementById("backspace");
-
+    let operatorList = ["\u00F7", "\u00D7", "-", "+"];
     let currentOperator = null;
     let firstNum = null;
     let secondNum = null;
@@ -73,6 +73,12 @@
 
     // OPERATOR INPUT
     function readOperator(operatorId, operatorText) {
+        let lastInput = screen.innerText.slice(-1);
+        if (operatorList.includes(lastInput)) {
+            screen.innerText = screen.innerText.slice(0, -1) + operatorText;
+            currentOperator = operatorId;
+            return;
+        }
         setOperand(showNumber());
         setTheOperator(operatorId);
         displayOperator(operatorText);
