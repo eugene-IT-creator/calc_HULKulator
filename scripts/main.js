@@ -92,13 +92,13 @@
     function setOperand(value) {
         if (firstNum === null) {
             firstNum = value;
-        } else {
+        } else if (currentOperator !== null) {
             secondNum = value;
         }
     }
 
     function setTheOperator(operator) {
-        if (currentOperator == null) {
+        if (currentOperator === null) {
             currentOperator = operator;
         } else if (firstNum && secondNum) {
             result = operate(Number(firstNum), Number(secondNum), currentOperator);
@@ -179,11 +179,11 @@
     // BACKSPACE
     backspaceBtn.addEventListener("click", deleteNumber)
     function deleteNumber() {
-        if (screen.innerText !== "0") {
+        if (screen.innerText !== "") {
+            if (operatorList.includes(screen.innerText.slice(-1))) {
+                currentOperator = null;
+            }
             screen.innerText = screen.innerText.toString().slice(0, -1);
-        }
-        if (screen.innerText === "") {
-            screen.innerText = "";
         }
     }
 
