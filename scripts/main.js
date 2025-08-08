@@ -53,7 +53,7 @@
 
     // NUMBER INPUT
     function readNumber(numberText) {
-        if (resetScreen) {
+        if (resetScreen || screen.innerText === "r u serious?") {
             clearScreen();
             resetScreen = false;
         }
