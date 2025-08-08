@@ -113,10 +113,11 @@
         result = calculateResult();
         if (result === "r u serious?") {
             screenBackground.src = memeLink;
+            setTimeout(() => {
+                screenBackground.src = "images/hulk.jpeg"
+            }, 5000)
         }
-        setTimeout(() => {
-            screenBackground.src = "images/hulk.jpeg"
-        }, 5000)
+        
         clearAllValues();
         if (result) {
             displayNumber(result);
