@@ -1,13 +1,14 @@
 (() => {
+    const memeLink = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHMzbnpkYTl0OTF4MWo1MzR6eHB3NTk5cGVhcTJxcGVyMTRucm9sbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/u31fedwl4J7G0/giphy.gif"
     let numbers = document.querySelectorAll('.numberBtn');
     let operators = document.querySelectorAll(".operator");
     let equal = document.getElementById("equal");
     let dot = document.getElementById("dot");
-
+    let screenBackground = document.querySelector(".img img");
     let screen = document.querySelectorAll("p")[0];
     let clear = document.getElementsByClassName("clear")[0];
     let backspaceBtn = document.getElementById("backspace");
-
+    let operatorList = ["\u00F7", "\u00D7", "-", "+"];
     let currentOperator = null;
     let firstNum = null;
     let secondNum = null;
@@ -52,7 +53,7 @@
 
     // NUMBER INPUT
     function readNumber(numberText) {
-        if (resetScreen) {
+        if (resetScreen || screen.innerText === "r u serious?") {
             clearScreen();
             resetScreen = false;
         }
@@ -72,6 +73,12 @@
 
     // OPERATOR INPUT
     function readOperator(operatorId, operatorText) {
+        let lastInput = screen.innerText.slice(-1);
+        if (operatorList.includes(lastInput)) {
+            screen.innerText = screen.innerText.slice(0, -1) + operatorText;
+            currentOperator = operatorId;
+            return;
+        }
         setOperand(showNumber());
         setTheOperator(operatorId);
         displayOperator(operatorText);
@@ -85,13 +92,13 @@
     function setOperand(value) {
         if (firstNum === null) {
             firstNum = value;
-        } else {
+        } else if (currentOperator !== null) {
             secondNum = value;
         }
     }
 
     function setTheOperator(operator) {
-        if (currentOperator == null) {
+        if (currentOperator === null) {
             currentOperator = operator;
         } else if (firstNum && secondNum) {
             result = operate(Number(firstNum), Number(secondNum), currentOperator);
@@ -110,8 +117,15 @@
 
     function readEquals() {
         result = calculateResult();
+        if (result === "r u serious?") {
+            screenBackground.src = memeLink;
+            setTimeout(() => {
+                screenBackground.src = "images/hulk.jpeg"
+            }, 5000)
+        }
+        
         clearAllValues();
-        if (result) {
+        if (result !== null) {
             displayNumber(result);
         }
     }
@@ -165,11 +179,11 @@
     // BACKSPACE
     backspaceBtn.addEventListener("click", deleteNumber)
     function deleteNumber() {
-        if (screen.innerText !== "0") {
+        if (screen.innerText !== "") {
+            if (operatorList.includes(screen.innerText.slice(-1))) {
+                currentOperator = null;
+            }
             screen.innerText = screen.innerText.toString().slice(0, -1);
-        }
-        if (screen.innerText === "") {
-            screen.innerText = "";
         }
     }
 
