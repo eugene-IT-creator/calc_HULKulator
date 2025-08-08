@@ -125,7 +125,7 @@
         }
         
         clearAllValues();
-        if (result) {
+        if (result !== null) {
             displayNumber(result);
         }
     }
