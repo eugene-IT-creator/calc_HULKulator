@@ -122,3 +122,10 @@ body {
     box-shadow: 0 0 5px 2px #62a506;
     border: none;
 }
+
+.copyright {
+    width: 340px;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 20px;
+    margin-left: 20px;
+}
