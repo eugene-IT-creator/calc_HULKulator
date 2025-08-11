@@ -122,12 +122,6 @@
 
         currentOperator = operator;
         if (firstNum && secondNum) {
-            console.log("doing this");
-            console.log(firstNum);
-            console.log(secondNum);
-
-
-
             result = operate(Number(firstNum), Number(secondNum), currentOperator);
             clearAllValues();
             displayNumber(result);
@@ -135,10 +129,6 @@
             currentOperator = operator;
         }
     }
-
-    // function displayOperator(operator) {
-    //     screen.innerText += operator;
-    // }
 
     // EQUALS HANDLING
 
