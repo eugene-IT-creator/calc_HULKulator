@@ -221,6 +221,7 @@
             case "*":
             case "/":
                 readOperator(e.key, e.key);
+                updateOperatorButtonState();
                 break;
             case ".":
             case ",":
@@ -228,13 +229,16 @@
                 break;
             case "Backspace":
                 deleteNumber();
+                updateOperatorButtonState();
                 break;
             case "=":
             case "Enter":
                 readEquals();
+                updateOperatorButtonState();
                 break;
             case "Escape":
                 clearAllValues();
+                updateOperatorButtonState();
                 break;
         }
     }
