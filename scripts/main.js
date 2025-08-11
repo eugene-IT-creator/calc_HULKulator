@@ -19,7 +19,7 @@
     function setOperatorButtonActive() {
         operators.forEach((operator) => {
             operator.classList.remove("selected-operator");
-            if (operator.innerText === currentOperatorText) {
+            if (operator.innerText === currentOperatorText || operator.id == currentOperator) {
                 operator.classList.add("selected-operator");
             }
         });
