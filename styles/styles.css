@@ -80,6 +80,17 @@ body {
     cursor: not-allowed;
 }
 
+.operator:not(:disabled):hover {
+    box-shadow: 0 0 5px 2px #62a506;
+    border: none;
+}
+
+.selected-operator {
+    background-color: #4b9819;
+    color: black;
+    border: none;
+}
+
 .clear {
     margin: 5px;
     width: 174px;
