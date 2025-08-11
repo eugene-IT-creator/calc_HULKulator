@@ -93,6 +93,9 @@
 
     // OPERATOR INPUT
     function readOperator(operatorId, operatorText) {
+        if (screen.innerText === "") {
+            return;
+        }
         if (screen.innerText === "r u serious?") {
             clearScreen();
         }
