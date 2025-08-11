@@ -9,12 +9,32 @@
     let clear = document.getElementsByClassName("clear")[0];
     let backspaceBtn = document.getElementById("backspace");
     let operatorList = ["\u00F7", "\u00D7", "-", "+"];
+    let currentOperatorText;
     let currentOperator = null;
     let firstNum = null;
     let secondNum = null;
     let resetScreen = false;
     let result = null;
 
+    function setOperatorButtonActive() {
+        operators.forEach((operator) => {
+            operator.classList.remove("selected-operator");
+            if (operator.innerText === currentOperatorText || operator.id == currentOperator) {
+                operator.classList.add("selected-operator");
+            }
+        });
+    }
+    function setOperatorButtonsDisabled(value) {
+        operators.forEach(operator => operator.disabled = value);
+    }
+    function updateOperatorButtonState() {
+        let empty;
+        if (screen.innerText === "" || screen.innerText === "r u serious?") {
+            empty = true;
+        }
+        setOperatorButtonsDisabled(empty);
+    }
+    updateOperatorButtonState();
 
     // OPERATION 
     function add(x, y) {
@@ -73,15 +93,16 @@
 
     // OPERATOR INPUT
     function readOperator(operatorId, operatorText) {
-        let lastInput = screen.innerText.slice(-1);
-        if (operatorList.includes(lastInput)) {
-            screen.innerText = screen.innerText.slice(0, -1) + operatorText;
-            currentOperator = operatorId;
+        if (screen.innerText === "") {
             return;
+        }
+        if (screen.innerText === "r u serious?") {
+            clearScreen();
         }
         setOperand(showNumber());
         setTheOperator(operatorId);
-        displayOperator(operatorText);
+        currentOperatorText = operatorText;
+        setOperatorButtonActive();
         resetScreen = true;
     }
 
@@ -92,25 +113,21 @@
     function setOperand(value) {
         if (firstNum === null) {
             firstNum = value;
-        } else if (currentOperator !== null) {
+        } else if (currentOperator !== null && !resetScreen) {
             secondNum = value;
         }
     }
 
     function setTheOperator(operator) {
-        if (currentOperator === null) {
-            currentOperator = operator;
-        } else if (firstNum && secondNum) {
+
+        currentOperator = operator;
+        if (firstNum && secondNum) {
             result = operate(Number(firstNum), Number(secondNum), currentOperator);
             clearAllValues();
             displayNumber(result);
             firstNum = result;
             currentOperator = operator;
         }
-    }
-
-    function displayOperator(operator) {
-        screen.innerText += operator;
     }
 
     // EQUALS HANDLING
@@ -123,7 +140,7 @@
                 screenBackground.src = "images/hulk.jpeg"
             }, 5000)
         }
-        
+
         clearAllValues();
         if (result !== null && result !== false) {
             displayNumber(result);
@@ -145,6 +162,7 @@
     numbers.forEach((number) => {
         number.addEventListener("click", (e) => {
             readNumber(e.target.innerText);
+            updateOperatorButtonState();
         });
     });
 
@@ -158,6 +176,8 @@
 
     equal.addEventListener("click", () => {
         readEquals();
+        updateOperatorButtonState();
+        setOperatorButtonActive();
     });
 
     // CLEAR
@@ -169,11 +189,13 @@
         firstNum = null;
         secondNum = null;
         currentOperator = null;
+        currentOperatorText = null;
         clearScreen();
     }
 
     clear.addEventListener("click", () => {
         clearAllValues();
+        updateOperatorButtonState();
     });
 
     // BACKSPACE
@@ -185,6 +207,8 @@
             }
             screen.innerText = screen.innerText.toString().slice(0, -1);
         }
+        updateOperatorButtonState();
+        setOperatorButtonActive();
     }
 
     // KEYBOARD INPUT HANDLING
@@ -195,6 +219,7 @@
             if (resetScreen)
                 clearScreen();
             displayNumber(e.key);
+            updateOperatorButtonState();
             resetScreen = false;
         }
         switch (e.key) {
@@ -203,6 +228,7 @@
             case "*":
             case "/":
                 readOperator(e.key, e.key);
+                updateOperatorButtonState();
                 break;
             case ".":
             case ",":
@@ -210,13 +236,18 @@
                 break;
             case "Backspace":
                 deleteNumber();
+                updateOperatorButtonState();
                 break;
             case "=":
             case "Enter":
                 readEquals();
+                updateOperatorButtonState();
+                setOperatorButtonActive();
                 break;
             case "Escape":
                 clearAllValues();
+                setOperatorButtonActive();
+                updateOperatorButtonState();
                 break;
         }
     }
