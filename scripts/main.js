@@ -15,6 +15,17 @@
     let resetScreen = false;
     let result = null;
 
+    function setOperatorButtonsDisabled(value) {
+        operators.forEach(operator => operator.disabled = value);
+    }
+    function updateOperatorButtonState() {
+        let empty;
+        if (screen.innerText === "" || screen.innerText === "r u serious?") {
+            empty = true;
+        }
+        setOperatorButtonsDisabled(empty);
+    }
+    updateOperatorButtonState();
 
     // OPERATION 
     function add(x, y) {
@@ -73,6 +84,9 @@
 
     // OPERATOR INPUT
     function readOperator(operatorId, operatorText) {
+        if (screen.innerText === "r u serious?") {
+            clearScreen();
+        }
         let lastInput = screen.innerText.slice(-1);
         if (operatorList.includes(lastInput)) {
             screen.innerText = screen.innerText.slice(0, -1) + operatorText;
@@ -145,6 +159,7 @@
     numbers.forEach((number) => {
         number.addEventListener("click", (e) => {
             readNumber(e.target.innerText);
+            updateOperatorButtonState();
         });
     });
 
@@ -158,6 +173,7 @@
 
     equal.addEventListener("click", () => {
         readEquals();
+        updateOperatorButtonState();
     });
 
     // CLEAR
@@ -174,6 +190,7 @@
 
     clear.addEventListener("click", () => {
         clearAllValues();
+        updateOperatorButtonState();
     });
 
     // BACKSPACE
@@ -185,6 +202,7 @@
             }
             screen.innerText = screen.innerText.toString().slice(0, -1);
         }
+        updateOperatorButtonState();
     }
 
     // KEYBOARD INPUT HANDLING

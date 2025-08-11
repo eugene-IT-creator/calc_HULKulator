@@ -74,6 +74,12 @@ body {
     cursor: pointer;
 }
 
+.operator:disabled {
+    background-color: gray;
+    opacity: 65%;
+    cursor: not-allowed;
+}
+
 .clear {
     margin: 5px;
     width: 174px;
