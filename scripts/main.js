@@ -16,6 +16,10 @@
     let resetScreen = false;
     let result = null;
 
+    function roundIfNeeded(val) {
+        return Number.isInteger(val) ? val : isNaN(val) ? val: Number(val.toFixed(2))
+    }
+
     function setOperatorButtonActive() {
         operators.forEach((operator) => {
             operator.classList.remove("selected-operator");
@@ -60,10 +64,10 @@
 
     function operate(x, y, operator) {
         const operations = {
-            "+": add(x, y),
-            "-": subtract(x, y),
-            "*": multiply(x, y),
-            "/": divide(x, y).toFixed(2),
+            "+": roundIfNeeded(add(x, y)),
+            "-": roundIfNeeded(subtract(x, y)),
+            "*": roundIfNeeded(multiply(x, y)),
+            "/": roundIfNeeded(divide(x, y)),
         }
         return operations[operator];
     }
@@ -77,7 +81,16 @@
             clearScreen();
             resetScreen = false;
         }
+        if (numberText === "0") {
+            if (screen.innerText.includes("0") && !screen.innerText.includes(".") && screen.innerText.length < 2) {
+                return;
+            }
+        }
+        if (screen.innerText === "0") {
+            clearScreen();
+        }
         displayNumber(numberText);
+        
     }
 
     function displayNumber(number) {
@@ -86,6 +99,9 @@
 
     // DECIMAL INPUT
     function displayDecimal() {
+        if (screen.innerText === "") {
+            return;
+        }
         if (!screen.innerText.includes(".")) {
             screen.innerText += ".";
         }
@@ -218,7 +234,7 @@
         if (e.key >= 0 && e.key <= 9) {
             if (resetScreen)
                 clearScreen();
-            displayNumber(e.key);
+            readNumber(e.key);
             updateOperatorButtonState();
             resetScreen = false;
         }
