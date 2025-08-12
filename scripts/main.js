@@ -16,6 +16,10 @@
     let resetScreen = false;
     let result = null;
 
+    function roundIfNeeded(num) {
+        return Number.isInteger(num) ? num : Number(num.toFixed(2));
+    }
+
     function setOperatorButtonActive() {
         operators.forEach((operator) => {
             operator.classList.remove("selected-operator");
@@ -60,10 +64,10 @@
 
     function operate(x, y, operator) {
         const operations = {
-            "+": add(x, y),
-            "-": subtract(x, y),
-            "*": multiply(x, y),
-            "/": divide(x, y).toFixed(2),
+            "+": roundIfNeeded(add(x, y)),
+            "-": roundIfNeeded(subtract(x, y)),
+            "*": roundIfNeeded(multiply(x, y)),
+            "/": roundIfNeeded(divide(x, y)),
         }
         return operations[operator];
     }
