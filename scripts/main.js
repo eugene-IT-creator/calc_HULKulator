@@ -81,7 +81,16 @@
             clearScreen();
             resetScreen = false;
         }
+        if (numberText === "0") {
+            if (screen.innerText.includes("0") && !screen.innerText.includes(".")) {
+                return;
+            }
+        }
+        if (screen.innerText === "0") {
+            clearScreen();
+        }
         displayNumber(numberText);
+        
     }
 
     function displayNumber(number) {
@@ -90,6 +99,9 @@
 
     // DECIMAL INPUT
     function displayDecimal() {
+        if (screen.innerText === "") {
+            return;
+        }
         if (!screen.innerText.includes(".")) {
             screen.innerText += ".";
         }
