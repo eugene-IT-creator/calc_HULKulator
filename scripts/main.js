@@ -82,7 +82,7 @@
             resetScreen = false;
         }
         if (numberText === "0") {
-            if (screen.innerText.includes("0") && !screen.innerText.includes(".")) {
+            if (screen.innerText.includes("0") && !screen.innerText.includes(".") && screen.innerText.length < 2) {
                 return;
             }
         }
@@ -234,7 +234,7 @@
         if (e.key >= 0 && e.key <= 9) {
             if (resetScreen)
                 clearScreen();
-            displayNumber(e.key);
+            readNumber(e.key);
             updateOperatorButtonState();
             resetScreen = false;
         }
