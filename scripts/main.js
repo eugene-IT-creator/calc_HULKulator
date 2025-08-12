@@ -16,8 +16,8 @@
     let resetScreen = false;
     let result = null;
 
-    function roundIfNeeded(num) {
-        return Number.isInteger(num) ? num : Number(num.toFixed(2));
+    function roundIfNeeded(val) {
+        return Number.isInteger(val) ? val : isNaN(val) ? val: Number(val.toFixed(2))
     }
 
     function setOperatorButtonActive() {
